@@ -41,3 +41,20 @@ export const fetchFields = async ({
     return [];
   }
 };
+
+type fetchFieldsBySysIdType = {
+  id: string;
+};
+export const fetchFieldsBySysId = async ({
+  id,
+}: fetchFieldsBySysIdType): Promise<any[]> => {
+  try {
+    const response = await client.getEntries<any>({
+      "sys.id": id,
+    });
+    return response?.items.map((item: Entry<any>) => item.fields) || [];
+  } catch (error) {
+    console.error("Error fetching content:", error);
+    return [];
+  }
+};

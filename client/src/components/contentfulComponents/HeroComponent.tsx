@@ -1,14 +1,15 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { getImageUrl } from "../util/commonFunctions";
 const HeroComponent = (element: any) => {
-  const image = element?.image?.fields?.file?.url;
+  const { description, image, title } = element;
   return (
     <div className="heroContainer">
       <div className="heroText">
-        <h1>{element?.title}</h1>
-        {documentToReactComponents(element.description)}
+        <h1>{title}</h1>
+        {documentToReactComponents(description)}
       </div>
       <div className="heroImageContainer">
-        <img src={image} alt="image1" className="heroImage" />
+        <img src={getImageUrl(image)} alt="image1" className="heroImage" />
       </div>
     </div>
   );

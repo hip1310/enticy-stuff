@@ -1,9 +1,11 @@
+import { getImageUrl } from "../../util/commonFunctions";
+
 const TwoArticleComponent = (element: any) => {
-  const { references } = element;
+  const { references, title } = element;
 
   return (
     <>
-      <h1 className="margin-20-px">{element.title}</h1>
+      <h1 className="margin-20-px">{title}</h1>
       <div className="twoArticleContainer">
         {references?.map((referencesElement: any, index: number) => {
           return (
@@ -20,15 +22,19 @@ const TwoArticleComponent = (element: any) => {
 };
 
 const SingleArticleComponent = (element: any) => {
-  const image = element?.image?.fields?.file?.url;
+  const { title, image, lastItem } = element;
   return (
     <div
       className={`singleArticleImageContainer  ${
-        element?.lastItem ? " float-right" : " float-left"
+        lastItem ? " float-right" : " float-left"
       }`}
     >
-      <img src={image} alt="image1" className="singleArticleImage" />
-      <h3 className="singleArticleText">{element?.title}</h3>
+      <img
+        src={getImageUrl(image)}
+        alt="image1"
+        className="singleArticleImage"
+      />
+      <h3 className="singleArticleText">{title}</h3>
     </div>
   );
 };

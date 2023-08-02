@@ -8,12 +8,8 @@ const Main = () => {
 
   useEffect(() => {
     const getDataFromContentful = async () => {
-      const fechedFields = await fetchFields({ contentType: slug || "main" });
+      const fechedFields = await fetchFields({ contentType: slug || "productContainer" });
       setContentfulData(fechedFields);
-      const isAuthenticated = fechedFields?.[0]?.isAuthenticated;
-      if (isAuthenticated) {
-        console.log("check authentication");
-      }
     };
     getDataFromContentful();
   }, [slug]);
