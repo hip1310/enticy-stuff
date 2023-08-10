@@ -1,4 +1,5 @@
 import { getImageUrl } from "../../util/commonFunctions";
+import "./Product.css";
 
 const Product = (element: any) => {
   const imageDescription = element?.image?.[0]?.fields?.description;
@@ -8,15 +9,13 @@ const Product = (element: any) => {
   const { name, price, productId } = element;
 
   return (
-    <div className="col-sm-2 col-md-3 col-lg-3" style={{ cursor: "pointer" }}>
+    <div className="col-xs-2 col-sm-3 col-md-3 col-lg-3 product">
       <img
         id={imageId}
         src={getImageUrl(element?.image?.[0])}
         alt={name}
+        className="productImage"
         style={{
-          width: "100%",
-          height: "221px",
-          objectFit: "fill",
           backgroundColor: backgroundColor || "unset",
         }}
         onClick={() => {
@@ -35,10 +34,12 @@ const Product = (element: any) => {
           }
         }}
       />
-      <p style={{ textAlign: "center", marginBottom: "0" }}>{name}</p>
-      <p style={{ textAlign: "center", marginBottom: "0" }}>
-        <b>₹{price}</b>
-      </p>
+      <p className="productName">{name}</p>
+      {price && (
+        <p className="productPrice">
+          <b>₹{price}</b>
+        </p>
+      )}
     </div>
   );
 };

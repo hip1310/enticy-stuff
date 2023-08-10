@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchFieldsBySysId } from "../../../services/contentfulService";
-import { getImageUrl } from "../../util/commonFunctions";
+import { getImageTitle, getImageUrl } from "../../util/commonFunctions";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { useAuth0 } from "@auth0/auth0-react";
-import LogoutButton from "../../auth/logoutButton";
-import LoginButton from "../../auth/loginButton";
+import "./Product.css";
 
 const ProductDetails = (element: any) => {
   const { id } = useParams();
   const [contentfulData, setContentfulData] = useState<any>([]);
-  const { isAuthenticated, isLoading } = useAuth0();
+
   useEffect(() => {
     const getDataFromContentful = async () => {
       const fechedFields = await fetchFieldsBySysId({ id: id || "" });
@@ -20,29 +18,24 @@ const ProductDetails = (element: any) => {
   }, [id]);
   const { image, name, price, description } = contentfulData;
   return (
-    <div className="margin-20-px">
-      <div className="row ">
-        <div className="col-5">
-          <img
-            src={getImageUrl(image?.[0])}
-            style={{
-              width: "100%",
-              height: "510px",
-              objectFit: "fill",
-            }}
-          />
-        </div>
-        <div className="col-7">
-          <h3>{name}</h3>
-          <b>₹{price}</b>
-          {documentToReactComponents(description)}
-
-          {!isLoading && (
-            <>{isAuthenticated ? <LogoutButton /> : <LoginButton />}</>
-          )}
+    <>
+      <div className="margin-20-px">
+        <div className="row">
+          <div className="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+            <img
+              src={getImageUrl(image?.[0])}
+              className="productDetailsImage"
+              alt={getImageTitle(image?.[0])}
+            />
+          </div>
+          <div className="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+            <h3>{name}</h3>
+            <b>₹{price}</b>
+            {documentToReactComponents(description)}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default ProductDetails;

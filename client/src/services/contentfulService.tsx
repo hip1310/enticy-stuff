@@ -25,13 +25,13 @@ export const fetchFields = async ({
     let response;
     if (slug) {
       response = await client.getEntries<any>({
-        include: 5,
+        include: 10,
         content_type: contentType,
         "fields.slug": slug,
       });
     } else {
       response = await client.getEntries<any>({
-        include: 5,
+        include: 10,
         content_type: contentType,
       });
     }

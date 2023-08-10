@@ -2,7 +2,7 @@
 .margin-left-20-percent {
   margin-left: 20%;
 }
-.margin-10-px{
+.margin-10-px {
   margin: 10px;
 }
 .margin-20-px {
@@ -22,61 +22,11 @@
   float: right;
 }
 
-.main-conainer{
+.main-conainer {
   /* margin-top: 20px;
   margin-bottom: 20px; */
 }
 
-/* hero component css */
-.heroContainer {
-  margin: 20px;
-  display: flex;
-  border-radius: 20px;
-  height: 320px;
-  box-shadow: 0px 0px 10px;
-}
-
-.heroText {
-  width: 50%;
-  margin-top: auto;
-  margin-bottom: auto;
+.not-found {
   text-align: center;
-  float: left;
-}
-
-.heroImageContainer {
-  width: 50%;
-  float: right;
-}
-
-.heroImage {
-  width: -webkit-fill-available;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  height: 100%;
-}
-
-/* two article css */
-
-.twoArticleContainer {
-  margin: 20px;
-  display: inline-block;
-  margin-bottom: 20px;
-}
-
-.singleArticleText {
-  word-break: break-all;
-  text-align: center;
-}
-
-.singleArticleImageContainer {
-  width: 45%;
-  border-radius: 20px;
-  box-shadow: 0px 0px 10px;
-}
-.singleArticleImage {
-  width: -webkit-fill-available;
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
-  height: 100%;
 }
