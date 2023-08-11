@@ -1,0 +1,11 @@
+.filterContainer{
+    padding-left: 10px; 
+    position: fixed;
+}
+.filterCategories{
+    margin-top: 10px;
+}
+
+.filterCheckboxLabel{
+    padding-left: 2px;
+}

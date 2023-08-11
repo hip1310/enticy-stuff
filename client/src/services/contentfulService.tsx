@@ -15,12 +15,18 @@ const client = createClient({
 type fetchFieldsType = {
   contentType: string;
   slug?: string;
+  skip?: number;
+  limit?: number;
+  fetchItems?:boolean
 };
 
 export const fetchFields = async ({
   contentType,
   slug,
-}: fetchFieldsType): Promise<any[]> => {
+  skip,
+  limit,
+  fetchItems
+}: fetchFieldsType): Promise<any> => {
   try {
     let response;
     if (slug) {
@@ -33,9 +39,16 @@ export const fetchFields = async ({
       response = await client.getEntries<any>({
         include: 10,
         content_type: contentType,
+        skip:skip,
+        limit:limit
       });
     }
-    return response?.items.map((item: Entry<any>) => item.fields) || [];
+    if(fetchItems){
+      return response
+    }else{
+      return response?.items.map((item: Entry<any>) => item.fields) || [];
+    }
+    
   } catch (error) {
     console.error("Error fetching content:", error);
     return [];

@@ -2,6 +2,9 @@
   background: #383848;
   color: white;
   display: flex;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 .headerLogo {
   width: 150px;
