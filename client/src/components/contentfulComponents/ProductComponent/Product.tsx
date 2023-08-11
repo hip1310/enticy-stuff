@@ -30,11 +30,12 @@ const Product = (element: any) => {
         onMouseOut={() => {
           const selectedImage = document.getElementById(imageId);
           if (typeof selectedImage !== "undefined" && selectedImage !== null) {
-            selectedImage.style.objectFit = "fill";
+            selectedImage.style.objectFit = "contain";
           }
         }}
       />
       <p className="productName">{name}</p>
+      <p className="productName">{element?.category}</p>
       {price && (
         <p className="productPrice">
           <b>₹{price}</b>

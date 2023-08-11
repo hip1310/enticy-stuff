@@ -3,19 +3,23 @@ import { SLUGS } from "../util/constant";
 import ProductContainer from "./ProductComponent/ProductContainer";
 import HeaderContainer from "./HeaderComponent/HeaderContainer";
 import FooterContainer from "./FooterComponent/FooterContainer";
+import FilterContainer from "./FilterComponent/FilterContainer";
 
 const ContentfulMainContainerComponent = (props: any) => {
   const { slug } = props;
 
-  let isProduct = slug === SLUGS.productContainer;
+  let isProduct = slug === SLUGS.PRODUCT_CONTAINER;
   let isHeader = slug === SLUGS.HEADER;
   let isFooter = slug === SLUGS.FOOTER;
+  let isFilter = slug === SLUGS.FILTER;
 
   if (isProduct) {
     if (isEmptyArray(props.products)) {
       return noPageFound();
     } else {
-      return <ProductContainer products={props.products} />;
+      return (
+        <ProductContainer products={props.products} setSkip={props.setSkip} total={props.total} />
+      );
     }
   } else if (isHeader) {
     if (isEmptyArray(props.productNames)) {
@@ -27,6 +31,8 @@ const ContentfulMainContainerComponent = (props: any) => {
     }
   } else if (isFooter) {
     return <FooterContainer {...props} />;
+  } else if (isFilter) {
+    return <FilterContainer {...props} />;
   } else {
     return <></>;
   }

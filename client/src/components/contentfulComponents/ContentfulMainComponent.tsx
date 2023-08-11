@@ -3,18 +3,28 @@ import { useState, useEffect } from "react";
 import ContentfulMainContainerComponent from "./ContentfulMainContainerComponent";
 import { SLUGS } from "../util/constant";
 const ContentfulMainComponent = (props: any) => {
-  const { slug } = props;
+  const { slug, limit, fetchItems } = props;
   const [contentfulData, setContentfulData] = useState<any>([]);
+  const [skip, setSkip] = useState<number>(0);
 
   useEffect(() => {
     const getDataFromContentful = async () => {
       const fechedFields = await fetchFields({
-        contentType: slug || SLUGS.productContainer,
+        contentType: slug || SLUGS.PRODUCT_CONTAINER,
+        skip: skip,
+        limit: limit,
+        fetchItems: fetchItems,
       });
-      setContentfulData(fechedFields);
+      if (slug === SLUGS.PRODUCT_CONTAINER) {
+        setContentfulData([
+          { products: fechedFields?.items, total: fechedFields?.total },
+        ]);
+      } else {
+        setContentfulData(fechedFields);
+      }
     };
     getDataFromContentful();
-  }, [slug]);
+  }, [slug, skip]);
 
   return (
     <div className="main-conainer">
@@ -25,6 +35,7 @@ const ContentfulMainComponent = (props: any) => {
               key={index}
               {...element}
               slug={slug}
+              setSkip={setSkip}
             />
           );
         })}
