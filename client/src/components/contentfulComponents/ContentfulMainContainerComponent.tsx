@@ -8,7 +8,7 @@ import FilterContainer from "./FilterComponent/FilterContainer";
 const ContentfulMainContainerComponent = (props: any) => {
   const { slug } = props;
 
-  let isProduct = slug === SLUGS.PRODUCT_CONTAINER;
+  let isProduct = slug === SLUGS.PRODUCT;
   let isHeader = slug === SLUGS.HEADER;
   let isFooter = slug === SLUGS.FOOTER;
   let isFilter = slug === SLUGS.FILTER;

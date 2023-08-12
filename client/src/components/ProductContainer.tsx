@@ -6,6 +6,6 @@ const ContentfulMainComponent = React.lazy(
 );
 
 const ProductContainer = () => {
-  return <ContentfulMainComponent slug={SLUGS.PRODUCT_CONTAINER} limit={PRODUCT_PAGE_LIMIT} fetchItems />;
+  return <ContentfulMainComponent slug={SLUGS.PRODUCT} limit={PRODUCT_PAGE_LIMIT} fetchItems />;
 };
 export default ProductContainer;

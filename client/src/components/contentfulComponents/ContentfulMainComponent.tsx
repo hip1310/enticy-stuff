@@ -10,12 +10,12 @@ const ContentfulMainComponent = (props: any) => {
   useEffect(() => {
     const getDataFromContentful = async () => {
       const fechedFields = await fetchFields({
-        contentType: slug || SLUGS.PRODUCT_CONTAINER,
+        contentType: slug || SLUGS.PRODUCT,
         skip: skip,
         limit: limit,
         fetchItems: fetchItems,
       });
-      if (slug === SLUGS.PRODUCT_CONTAINER) {
+      if (slug === SLUGS.PRODUCT) {
         setContentfulData([
           { products: fechedFields?.items, total: fechedFields?.total },
         ]);
