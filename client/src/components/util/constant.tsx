@@ -2,7 +2,7 @@ export const SLUGS = {
     HEADER : "header",
     FOOTER : "footer",
     FILTER:"filter",
-    PRODUCT_CONTAINER : "product"
+    PRODUCT : "product"
 }
 
-export const PRODUCT_PAGE_LIMIT = 10
+export const PRODUCT_PAGE_LIMIT = 12
