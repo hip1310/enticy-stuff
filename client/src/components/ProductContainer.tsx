@@ -5,7 +5,14 @@ const ContentfulMainComponent = React.lazy(
   () => import("./contentfulComponents/ContentfulMainComponent")
 );
 
-const ProductContainer = () => {
-  return <ContentfulMainComponent slug={SLUGS.PRODUCT} limit={PRODUCT_PAGE_LIMIT} fetchItems />;
+const ProductContainer = (props: any) => {
+  return (
+    <ContentfulMainComponent
+      slug={SLUGS.PRODUCT}
+      limit={PRODUCT_PAGE_LIMIT}
+      category={props.category}
+      fetchItems
+    />
+  );
 };
 export default ProductContainer;

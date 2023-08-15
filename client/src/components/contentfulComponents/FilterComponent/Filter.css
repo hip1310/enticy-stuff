@@ -1,11 +1,20 @@
-.filterContainer{
-    padding-left: 10px; 
-    position: fixed;
+.filterContainer {
+  padding-left: 10px;
+  position: fixed;
 }
-.filterCategories{
-    margin-top: 10px;
+.filterCategories {
+  margin-top: 10px;
 }
 
-.filterCheckboxLabel{
-    padding-left: 2px;
+.filterCheckboxLabel {
+  padding-left: 5px;
+}
+
+.categoryCollapsible {
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  text-align: right;
+  outline: none;
+  font-size: 15px;
 }

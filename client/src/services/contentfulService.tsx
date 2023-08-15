@@ -17,7 +17,8 @@ type fetchFieldsType = {
   slug?: string;
   skip?: number;
   limit?: number;
-  fetchItems?:boolean
+  fetchItems?: boolean;
+  query?: any;
 };
 
 export const fetchFields = async ({
@@ -25,30 +26,27 @@ export const fetchFields = async ({
   slug,
   skip,
   limit,
-  fetchItems
+  fetchItems,
+  query,
 }: fetchFieldsType): Promise<any> => {
   try {
-    let response;
-    if (slug) {
-      response = await client.getEntries<any>({
-        include: 10,
-        content_type: contentType,
-        "fields.slug": slug,
-      });
-    } else {
-      response = await client.getEntries<any>({
-        include: 10,
-        content_type: contentType,
-        skip:skip,
-        limit:limit
+    let queryObject: any = {
+      include: 10,
+      content_type: contentType,
+      skip: skip,
+      limit: limit,
+    };
+    if (query) {
+      Object.keys(query).map((key) => {
+        queryObject[key] = query[key];
       });
     }
-    if(fetchItems){
-      return response
-    }else{
+    let response = await client.getEntries<any>(queryObject);
+    if (fetchItems) {
+      return response;
+    } else {
       return response?.items.map((item: Entry<any>) => item.fields) || [];
     }
-    
   } catch (error) {
     console.error("Error fetching content:", error);
     return [];
