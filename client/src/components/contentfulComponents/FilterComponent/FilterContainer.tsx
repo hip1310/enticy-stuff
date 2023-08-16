@@ -9,11 +9,11 @@ const FilterContainer = (element: any) => {
 
   return categories ? (
     <>
-      <h5 className="margin-left-5-px">
+      <h5 className="margin-left-5-px position-fixed">
         <b>Filters </b>
       </h5>
       <h6
-        className="margin-top-15-px display-flex margin-left-5-px margin-bottom-0 cursor-pointer"
+        className="col-2 margin-top-30-px display-flex margin-left-5-px margin-bottom-0 cursor-pointer position-fixed"
         onClick={() => {
           setCategoryCollapsible(!categoryCollapsible);
         }}
