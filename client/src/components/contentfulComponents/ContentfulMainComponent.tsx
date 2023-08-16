@@ -14,6 +14,7 @@ const ContentfulMainComponent = (props: any) => {
         skip: skip,
         limit: limit,
         fetchItems: fetchItems,
+        query: props.category,
       });
       if (slug === SLUGS.PRODUCT) {
         setContentfulData([

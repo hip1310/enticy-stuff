@@ -1,6 +1,18 @@
 /* common css */
+.margin-left-5-px {
+  margin-left: 5px;
+}
 .margin-left-20-percent {
   margin-left: 20%;
+}
+.margin-top-15-px {
+  margin-top: 15px;
+}
+.margin-top-30-px {
+  margin-top: 30px;
+}
+.margin-bottom-0 {
+  margin-bottom: 0;
 }
 .margin-10-px {
   margin: 10px;
@@ -33,4 +45,8 @@
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.display-flex {
+  display: flex;
 }
