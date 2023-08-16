@@ -6,9 +6,14 @@ import Auth from "../../auth/Auth";
 const HeaderContainer = (element: any) => {
   const { logo, productNames } = element;
   const HomeTab = { name: "Home", redirectionUrl: "/" };
+  const CartTab = { name: "Cart", redirectionUrl: "/cart" };
   return (
     <div className="headerContainer">
-      <img src={getImageUrl(logo)} className="headerLogo" alt={getImageTitle(logo)} />
+      <img
+        src={getImageUrl(logo)}
+        className="headerLogo"
+        alt={getImageTitle(logo)}
+      />
       <div className="headerNavContainer">
         <Header {...HomeTab} />
         {productNames?.map((element: any, index: number) => {
@@ -20,6 +25,7 @@ const HeaderContainer = (element: any) => {
             />
           );
         })}
+        <Header {...CartTab} />
       </div>
       <div className="headerLoginLogoutButton">
         <Auth />

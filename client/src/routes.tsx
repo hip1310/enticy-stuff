@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+const Cart = React.lazy(() => import("./components/Cart"));
 const Header = React.lazy(() => import("./components/Header"));
 const Footer = React.lazy(() => import("./components/Footer"));
 const ProductDetails = React.lazy(
@@ -25,6 +26,7 @@ const allRoutes = () => {
             <Route path="/product" element={<Home />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/products/:category" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/signin" element={<Auth />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

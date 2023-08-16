@@ -1,0 +1,38 @@
+.cartContainer,
+.cartNoDataFound {
+  margin-top: 150px;
+}
+
+.cartNoDataFound {
+  text-align: center;
+  font-weight: bolder;
+}
+
+.cartItems {
+  padding: 20px;
+  display: flex;
+}
+
+.cartItemsImage {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.cartItemsDetails {
+  margin-left: 10px;
+}
+
+.cartTotalContainer {
+  padding: 20px;
+  padding-top: 0;
+  text-align: center;
+}
+
+.cartProceedToByButton {
+  border-radius: 5px;
+  background: #383848;
+  color: white;
+  width: 250px;
+  height: 40px;
+}
