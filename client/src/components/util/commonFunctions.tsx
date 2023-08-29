@@ -16,6 +16,10 @@ export const noPageFound = () => {
   return <>No page found</>;
 };
 
+export const removeCartItems = ()=>{
+  localStorage.removeItem(LOCAL_STORAGE.CART_ITEMS)
+}
+
 export const replaceCartItems = (cartItems: any) => {
   localStorage.setItem(LOCAL_STORAGE.CART_ITEMS, JSON.stringify(cartItems));
 };
@@ -52,5 +56,5 @@ export const getTotal = () => {
   getCartItems()?.map((element: any) => {
     total = total + element.price * element.qty;
   });
-  return total?.toLocaleString();
+  return total+"";
 };

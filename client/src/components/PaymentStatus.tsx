@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Elements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { Link } from "react-router-dom";
+import { removeCartItems } from "./util/commonFunctions";
 const stripePromise = loadStripe(
   process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY || ""
 );
@@ -42,6 +43,7 @@ const PaymentStatusComponent = () => {
         switch (paymentIntent.status) {
           case "succeeded":
             setMessage("Success! Payment received.");
+            removeCartItems();
             break;
 
           case "processing":
@@ -67,7 +69,7 @@ const PaymentStatusComponent = () => {
       <h4 style={{ fontWeight: "bold", textTransform: "capitalize" }}>
         {paymentIntentObj?.status}
       </h4>
-      <br/>
+      <br />
       {message} <Link to={"/"}>Redirect to home in</Link>
     </div>
   );
