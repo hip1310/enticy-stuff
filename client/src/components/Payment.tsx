@@ -10,6 +10,7 @@ const stripePromise = loadStripe(
 );
 const Payment = () => {
   const [clientSecret, setClientSecret] = useState("");
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     const data = {
@@ -25,6 +26,7 @@ const Payment = () => {
       })
       .then(async (response: any) => {
         if (response.status === 200) {
+          setLoading(false);
           const { clientSecret } = response?.data;
           setClientSecret(clientSecret);
         }
@@ -38,13 +40,21 @@ const Payment = () => {
     clientSecret,
     appearance,
   };
-  return clientSecret ? (
-    <Elements stripe={stripePromise} options={options}>
-      <StripeCheckout />
-    </Elements>
-  ) : (
-    <></>
-  );
+  if (loading) {
+    return (
+      <div style={{ marginTop: "150px", textAlign: "center" }}>
+        <h3>Loading...</h3>
+      </div>
+    );
+  } else {
+    return clientSecret ? (
+      <Elements stripe={stripePromise} options={options}>
+        <StripeCheckout />
+      </Elements>
+    ) : (
+      <></>
+    );
+  }
 };
 
 export default Payment;
