@@ -42,7 +42,7 @@ const Payment = () => {
   };
   if (loading) {
     return (
-      <div style={{ marginTop: "150px", textAlign: "center" }}>
+      <div className="mainContainer" style={{ textAlign: "center" }}>
         <h3>Loading...</h3>
       </div>
     );

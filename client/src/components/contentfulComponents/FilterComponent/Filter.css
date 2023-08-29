@@ -1,16 +1,22 @@
 .filtermain {
-  height: 100%;
+  height: calc(100% - 150px);
   margin-top: 10px;
   padding: 10px;
   margin-left: 10px;
   position: fixed;
-  box-shadow: 20px 20px 50px grey;
+  /* box-shadow: 3px -4px 11px grey; */
   width: inherit;
+  /* border-radius: 4px; */
+  border-right: 1px solid #8080808f;
 }
 
 .categories{
   height: 145px;
   border-bottom: 1px solid #8080808f;
+}
+
+.filterText{
+  border-bottom: solid;
 }
 
 .filterContainer {

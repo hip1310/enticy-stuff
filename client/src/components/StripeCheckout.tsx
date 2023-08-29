@@ -96,8 +96,8 @@ export default function CheckoutForm() {
         <form
           id="payment-form"
           onSubmit={handleSubmit}
+          className="mainContainer"
           style={{
-            marginTop: 150,
             display: "block",
             width: "100%",
           }}
@@ -110,22 +110,37 @@ export default function CheckoutForm() {
             id="payment-element"
             options={paymentElementOptions}
           />
-          <button
-            disabled={isLoading || !stripe || !elements}
-            id="submit"
-            style={{
-              display: "block",
-              width: "100%",
-            }}
-          >
-            <span id="button-text">
-              {isLoading ? (
-                <div className="spinner" id="spinner"></div>
-              ) : (
-                "Pay now"
-              )}
-            </span>
-          </button>
+          <div style={{ display: "flex", marginTop: "10px", }}>
+            <button
+              disabled={isLoading || !stripe || !elements}
+              id="submit"
+              style={{
+                display: "block",
+                width: "95%",
+                marginRight: "10px",
+              }}
+            >
+              <span id="button-text">
+                {isLoading ? (
+                  <div className="spinner" id="spinner"></div>
+                ) : (
+                  "Pay now"
+                )}
+              </span>
+            </button>
+            <button
+              id="cancel"
+              style={{
+                display: "block",
+                width: "95%",
+              }}
+              onClick={() => {
+                window.location.href = "/cart";
+              }}
+            >
+              <span id="button-text">Cancel</span>
+            </button>
+          </div>
           {/* Show any error or success messages */}
           {message && <div id="payment-message">{message}</div>}
         </form>

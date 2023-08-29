@@ -85,7 +85,7 @@ const Cart = () => {
   } else {
     if (cartItems && cartItems?.length > 0) {
       return (
-        <div className="cartContainer">
+        <div className="mainContainer">
           {cartItems?.map((element: any, index: any) => {
             return (
               <div className="cartItems" key={index}>
@@ -113,7 +113,7 @@ const Cart = () => {
         </div>
       );
     } else {
-      return <div className="cartNoDataFound">No Data found</div>;
+      return <div className="cartNoDataFound mainContainer">No Data found</div>;
     }
   }
 };

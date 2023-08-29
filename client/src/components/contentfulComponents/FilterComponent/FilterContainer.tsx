@@ -11,11 +11,9 @@ const FilterContainer = (element: any) => {
     <div className=" filtermain">
       {categories ? (
         <div className="categories">
-          <div>
-            <h5 className="margin-left-5-px position-fixed">
+            <h5 className="margin-left-5-px position-fixed filterText">
               <b>Filters </b>
             </h5>
-          </div>
           <h6
             className="margin-top-40-px display-flex margin-left-5-px margin-bottom-0 cursor-pointer position-fixed"
             onClick={() => {

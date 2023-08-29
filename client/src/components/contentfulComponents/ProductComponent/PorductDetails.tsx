@@ -101,7 +101,7 @@ const ProductDetails = () => {
 
   return (
     <>
-      <div className="margin-20-px productDetailsContainer">
+      <div className="margin-20-px productDetailsContainer mainContainer">
         <div className="row">
           <div className="col-xs-12 col-sm-5 col-md-5 col-lg-5">
             <img

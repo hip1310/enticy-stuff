@@ -6,7 +6,7 @@ import Product from "./Product";
 const ProductContainer = (element: any) => {
   const { products, setSkip, total } = element;
   return (
-    <div className="row producttPageMainContainer">
+    <div className="row producttPageMainContainer mainContainer">
       <div className="col-5 col-sm-3 col-md-3 col-lg-2">
         <ContentfulMainComponent slug={SLUGS.FILTER} />
       </div>

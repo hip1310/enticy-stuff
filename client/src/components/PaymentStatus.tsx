@@ -65,7 +65,7 @@ const PaymentStatusComponent = () => {
       });
   }, [stripe]);
   return (
-    <div style={{ marginTop: 150, textAlign: "center" }}>
+    <div className = "mainContainer" style={{ textAlign: "center" }}>
       <h4 style={{ fontWeight: "bold", textTransform: "capitalize" }}>
         {paymentIntentObj?.status}
       </h4>
