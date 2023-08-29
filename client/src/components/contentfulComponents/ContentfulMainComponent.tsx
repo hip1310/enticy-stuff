@@ -28,7 +28,7 @@ const ContentfulMainComponent = (props: any) => {
   }, [slug, skip]);
 
   return (
-    <div className="main-conainer">
+    <>
       {contentfulData &&
         contentfulData?.map((element: any, index: number) => {
           return (
@@ -40,7 +40,7 @@ const ContentfulMainComponent = (props: any) => {
             />
           );
         })}
-    </div>
+    </>
   );
 };
 export default ContentfulMainComponent;

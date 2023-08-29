@@ -1,4 +1,15 @@
-.loginButton,.logoutButton{
-    width: 80px;
-    border-radius: 5px;
+.loginButton,
+.logoutButton {
+  padding: 10px;
+  cursor: pointer;
+  width: 113px;
+  border-radius: 5px;
+  margin-bottom: 0;
+}
+
+.loginButton {
+  width: 133px;
+}
+.logoutButton {
+  width: 80px;
 }

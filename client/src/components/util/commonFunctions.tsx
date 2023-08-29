@@ -16,6 +16,10 @@ export const noPageFound = () => {
   return <>No page found</>;
 };
 
+export const removeCartItems = ()=>{
+  localStorage.removeItem(LOCAL_STORAGE.CART_ITEMS)
+}
+
 export const replaceCartItems = (cartItems: any) => {
   localStorage.setItem(LOCAL_STORAGE.CART_ITEMS, JSON.stringify(cartItems));
 };
@@ -44,4 +48,13 @@ export const getCartItems = () => {
   return localStorage.getItem(LOCAL_STORAGE.CART_ITEMS)
     ? JSON.parse(localStorage.getItem(LOCAL_STORAGE.CART_ITEMS)!)
     : [];
+};
+
+
+export const getTotal = () => {
+  let total = 0;
+  getCartItems()?.map((element: any) => {
+    total = total + element.price * element.qty;
+  });
+  return total+"";
 };
