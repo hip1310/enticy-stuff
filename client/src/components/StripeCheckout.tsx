@@ -59,7 +59,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000/payment-status",
+        return_url: window.location.origin + "/payment-status",
       },
     });
 
@@ -97,7 +97,7 @@ export default function CheckoutForm() {
           id="payment-form"
           onSubmit={handleSubmit}
           style={{
-            marginTop:150,
+            marginTop: 150,
             display: "block",
             width: "100%",
           }}
