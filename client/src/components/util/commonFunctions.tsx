@@ -45,3 +45,12 @@ export const getCartItems = () => {
     ? JSON.parse(localStorage.getItem(LOCAL_STORAGE.CART_ITEMS)!)
     : [];
 };
+
+
+export const getTotal = () => {
+  let total = 0;
+  getCartItems()?.map((element: any) => {
+    total = total + element.price * element.qty;
+  });
+  return total?.toLocaleString();
+};

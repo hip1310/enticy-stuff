@@ -106,7 +106,9 @@ const Cart = () => {
           <div className="cartTotalContainer">
             Total : <b>₹{getTotal()}</b>
             <br />
-            <button className="cartProceedToByButton">Proceed to Buy</button>
+            <button className="cartProceedToByButton" onClick={()=>{
+              window.location.href="/payment"
+            }}>Proceed to Buy</button>
           </div>
         </div>
       );
