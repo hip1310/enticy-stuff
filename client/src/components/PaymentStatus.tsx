@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Elements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { Link } from "react-router-dom";
-import { removeCartItems } from "./util/commonFunctions";
+import { getUser, isLoggedIn, removeCartItems } from "./util/commonFunctions";
+import { axiosAPI } from "../services/axiosAPI";
 const stripePromise = loadStripe(
   process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY || ""
 );
@@ -43,7 +44,22 @@ const PaymentStatusComponent = () => {
         switch (paymentIntent.status) {
           case "succeeded":
             setMessage("Success! Payment received.");
-            removeCartItems();
+            if (isLoggedIn()) {
+              const userData = getUser();
+              axiosAPI.patch(
+                `/cart/moveCartItem?userId=${userData?.id}`,
+                {},
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "http://127.0.0.1:3000",
+                  },
+                }
+              );
+            } else {
+              removeCartItems();
+            }
+
             break;
 
           case "processing":
@@ -65,7 +81,7 @@ const PaymentStatusComponent = () => {
       });
   }, [stripe]);
   return (
-    <div className = "mainContainer" style={{ textAlign: "center" }}>
+    <div className="mainContainer" style={{ textAlign: "center" }}>
       <h4 style={{ fontWeight: "bold", textTransform: "capitalize" }}>
         {paymentIntentObj?.status}
       </h4>

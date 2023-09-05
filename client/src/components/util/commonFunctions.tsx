@@ -16,9 +16,14 @@ export const noPageFound = () => {
   return <>No page found</>;
 };
 
-export const removeCartItems = ()=>{
-  localStorage.removeItem(LOCAL_STORAGE.CART_ITEMS)
-}
+export const clearAllData = () => {
+  removeCartItems();
+  removeUser();
+};
+
+export const removeCartItems = () => {
+  localStorage.removeItem(LOCAL_STORAGE.CART_ITEMS);
+};
 
 export const replaceCartItems = (cartItems: any) => {
   localStorage.setItem(LOCAL_STORAGE.CART_ITEMS, JSON.stringify(cartItems));
@@ -50,11 +55,35 @@ export const getCartItems = () => {
     : [];
 };
 
+export const saveUser = (user: any) => {
+  localStorage.setItem(LOCAL_STORAGE.USER, JSON.stringify(user));
+};
 
-export const getTotal = () => {
+export const getUser = () => {
+  return localStorage.getItem(LOCAL_STORAGE.USER)
+    ? JSON.parse(localStorage.getItem(LOCAL_STORAGE.USER)!)
+    : undefined;
+};
+export const removeUser = () => {
+  localStorage.removeItem(LOCAL_STORAGE.USER);
+};
+
+export const isLoggedIn = () => {
+  const userData = getUser();
+  return userData?.id ? true : false;
+};
+
+export const getTotal = (cartItems?: any) => {
   let total = 0;
-  getCartItems()?.map((element: any) => {
-    total = total + element.price * element.qty;
-  });
-  return total+"";
+  if (cartItems) {
+    cartItems?.map((element: any) => {
+      total = total + element.price * element.qty;
+    });
+  } else {
+    getCartItems()?.map((element: any) => {
+      total = total + element.price * element.qty;
+    });
+  }
+
+  return total + "";
 };

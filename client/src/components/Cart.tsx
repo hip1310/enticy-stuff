@@ -2,19 +2,30 @@ import {
   getCartItems,
   getImageUrl,
   getSpecificItemFromCart,
+  getUser,
+  isLoggedIn,
   replaceCartItems,
 } from "./util/commonFunctions";
 import "./Cart.css";
 import { ADD_CART_TYPES } from "./util/constant";
 import { useEffect, useState } from "react";
+import { axiosAPI } from "../services/axiosAPI";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const cartItemsFromLocalStorage = getCartItems();
-    setCartItems(cartItemsFromLocalStorage);
+    if (isLoggedIn()) {
+      const userData = getUser();
+      axiosAPI.get(`/cart/findAll?userId=${userData?.id}`).then((response) => {
+        setCartItems(response?.data);
+      });
+    } else {
+      const cartItemsFromLocalStorage = getCartItems();
+      setCartItems(cartItemsFromLocalStorage);
+    }
+
     setIsLoading(false);
   }, []);
 
@@ -91,7 +102,11 @@ const Cart = () => {
               <div className="cartItems" key={index}>
                 <img
                   className="cartItemsImage"
-                  src={getImageUrl(element?.image?.[0])}
+                  src={
+                    isLoggedIn()
+                      ? element?.image
+                      : getImageUrl(element?.image?.[0])
+                  }
                   alt={element?.name}
                 />
                 <div className="cartItemsDetails">
@@ -106,9 +121,14 @@ const Cart = () => {
           <div className="cartTotalContainer">
             Total : <b>₹{getTotal()}</b>
             <br />
-            <button className="cartProceedToByButton" onClick={()=>{
-              window.location.href="/payment"
-            }}>Proceed to Buy</button>
+            <button
+              className="cartProceedToByButton"
+              onClick={() => {
+                window.location.href = "/payment";
+              }}
+            >
+              Proceed to Buy
+            </button>
           </div>
         </div>
       );
