@@ -15,6 +15,11 @@
   border-bottom: 1px solid #8080808f;
 }
 
+.prices{
+  height: 130px;
+  border-bottom: 1px solid #8080808f;
+}
+
 .filterText{
   border-bottom: solid;
 }
@@ -32,7 +37,7 @@
   padding-left: 5px;
 }
 
-.categoryCollapsible {
+.collapsible{
   cursor: pointer;
   width: 100%;
   border: none;
@@ -42,6 +47,13 @@
   text-align: end;
   font-weight: 900;
   color: orange;
-  padding-top: 36px;
   margin-bottom: 0px;
+}
+
+.categoryCollapsible {
+  padding-top: 36px;
+}
+
+.priceCollapsible{
+  padding-top: 10px;
 }

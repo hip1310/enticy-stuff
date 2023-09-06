@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import ContentfulMainContainerComponent from "./ContentfulMainContainerComponent";
 import { SLUGS } from "../util/constant";
 const ContentfulMainComponent = (props: any) => {
-  const { slug, limit, fetchItems } = props;
+  const { slug, limit, fetchItems, onChangeFilter } = props;
   const [contentfulData, setContentfulData] = useState<any>([]);
   const [skip, setSkip] = useState<number>(0);
 
@@ -14,7 +14,7 @@ const ContentfulMainComponent = (props: any) => {
         skip: skip,
         limit: limit,
         fetchItems: fetchItems,
-        query: props.category,
+        query: slug !== SLUGS.FILTER && props.filter,
       });
       if (slug === SLUGS.PRODUCT) {
         setContentfulData([
@@ -25,7 +25,7 @@ const ContentfulMainComponent = (props: any) => {
       }
     };
     getDataFromContentful();
-  }, [slug, skip]);
+  }, [slug, skip, props.filter]);
 
   return (
     <>
@@ -37,6 +37,8 @@ const ContentfulMainComponent = (props: any) => {
               {...element}
               slug={slug}
               setSkip={setSkip}
+              onChangeFilter={onChangeFilter}
+              filter ={props.filter}
             />
           );
         })}

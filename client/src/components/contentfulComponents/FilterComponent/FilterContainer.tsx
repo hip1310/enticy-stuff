@@ -1,15 +1,15 @@
-import { useParams } from "react-router-dom";
 import "./Filter.css";
 import { useState } from "react";
 
 const FilterContainer = (element: any) => {
-  const { categories } = element;
-  const { category } = useParams();
+  const { categories, price, onChangeFilter, filter } = element;
   const [categoryCollapsible, setCategoryCollapsible] = useState<boolean>(true);
+  const [priceCollapsible, setPriceCollapsible] = useState<boolean>(true);
 
   return (
     <div className=" filtermain">
       {categories ? (
+        <>
         <div className="categories">
             <h5 className="margin-left-5-px position-fixed filterText">
               <b>Filters </b>
@@ -23,7 +23,7 @@ const FilterContainer = (element: any) => {
             Categories
           </h6>
           <p
-            className="categoryCollapsible"
+            className="collapsible categoryCollapsible"
             onClick={() => {
               setCategoryCollapsible(!categoryCollapsible);
             }}
@@ -41,13 +41,12 @@ const FilterContainer = (element: any) => {
                         id={categoryElement}
                         name={categoryElement}
                         value={categoryElement}
-                        checked={category === categoryElement || false}
+                        checked={filter["fields.category"] === categoryElement || false}
                         onChange={(element) => {
                           if (!element.target.checked) {
-                            window.location.href = "/";
+                            onChangeFilter("category","")
                           } else {
-                            window.location.href =
-                              "/products/" + categoryElement;
+                            onChangeFilter("category",categoryElement)
                           }
                         }}
                       />
@@ -65,6 +64,58 @@ const FilterContainer = (element: any) => {
             </div>
           )}
         </div>
+        <div className="prices">
+          <h6
+            className="margin-top-10-px display-flex margin-left-5-px margin-bottom-0 cursor-pointer position-fixed"
+            onClick={() => {
+              setPriceCollapsible(!priceCollapsible);
+            }}
+          >
+            Price
+          </h6>
+          <p
+            className="collapsible priceCollapsible"
+            onClick={() => {
+              setPriceCollapsible(!priceCollapsible);
+            }}
+          >
+            {priceCollapsible ? "—" : "+"}
+          </p>
+          {priceCollapsible && (
+            <div className="filterContainer">
+              <div className="filterCategories">
+                {price?.map((element: any, index: number) => {
+                  return (
+                    <div key={index}>
+                      <input
+                        type="checkbox"
+                        id={element}
+                        name={element}
+                        value={element}
+                        checked={filter["fields.price[gte]"] === element.split("-")[0] || false}
+                        onChange={(onChangeElement) => {
+                          if (!onChangeElement.target.checked) {
+                            onChangeFilter("price","")
+                          } else {
+                            onChangeFilter("price",element)
+                          }
+                        }}
+                      />
+                      <label
+                        className="filterCheckboxLabel"
+                        htmlFor={element}
+                      >
+                        {element}
+                      </label>
+                      <br></br>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+        </>
       ) : (
         <></>
       )}
