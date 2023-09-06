@@ -7,11 +7,14 @@ import {
   getImageTitle,
   getImageUrl,
   getSpecificItemFromCart,
+  getUser,
+  isLoggedIn,
   replaceCartItems,
 } from "../../util/commonFunctions";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import "./Product.css";
 import { ADD_CART_TYPES } from "../../util/constant";
+import { axiosAPI } from "../../../services/axiosAPI";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -21,14 +24,32 @@ const ProductDetails = () => {
   useEffect(() => {
     const getDataFromContentful = async () => {
       const fechedFields = await fetchFieldsBySysId({ id: id || "" });
-      setContentfulData(fechedFields?.[0]);
+      let currentContentfulData = fechedFields?.[0];
+      if (isLoggedIn()) {
+        const userData = getUser();
+        axiosAPI
+          .get(
+            `/cart/findOneByUserIdAndName?userId=${userData.id}&name=${currentContentfulData?.name}`
+          )
+          .then((response) => {
+            if (response?.data?.[0]) {
+              currentContentfulData.qty = response?.data?.[0].qty;
+              currentContentfulData.id = response?.data?.[0].id;
+            }
+            setContentfulData(currentContentfulData);
+          });
+      } else {
+        setContentfulData(currentContentfulData);
+      }
     };
     getDataFromContentful();
   }, [id]);
 
   const renderAddToCartButton = () => {
-    const item = getSpecificItemFromCart(contentfulData);
-    if (item) {
+    const item = isLoggedIn()
+      ? contentfulData
+      : getSpecificItemFromCart(contentfulData);
+    if (item?.qty) {
       return (
         <div className="display-flex">
           <button
@@ -67,35 +88,73 @@ const ProductDetails = () => {
   };
 
   const onClickAddToCart = (element: any, type: string) => {
-    let singleItemFromLocalStorage = getSpecificItemFromCart(element);
-    if (singleItemFromLocalStorage) {
-      let cartItems = getCartItems();
-      let indexItem = -1;
-      cartItems.map((cartItem: any, index: number) => {
-        if (cartItem.name === singleItemFromLocalStorage.name) {
-          if (type === ADD_CART_TYPES.PLUS) {
-            cartItem.qty = cartItem.qty + 1;
-          } else if (type === ADD_CART_TYPES.MINUS) {
-            if (cartItem.qty === 1) {
-              indexItem = index;
-            } else {
-              cartItem.qty = cartItem.qty - 1;
+    const { name, image, price, id } = element;
+    const userData = getUser();
+    if (isLoggedIn()) {
+      let qty;
+      if (ADD_CART_TYPES.ADD === type) {
+        qty = 1;
+      } else if (ADD_CART_TYPES.MINUS === type) {
+        qty = element?.qty - 1;
+      } else if (ADD_CART_TYPES.PLUS === type) {
+        qty = element?.qty + 1;
+      }
+
+      const cartItem = {
+        name: name,
+        image: getImageUrl(image?.[0]),
+        qty: qty,
+        price: price,
+        userId: userData.id,
+        id: id,
+      };
+      axiosAPI
+        .post("/cart/add", cartItem, {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "http://127.0.0.1:3000",
+          },
+        })
+        .then((response) => {
+          if (Object.keys(response?.data)?.length > 0) {
+            setContentfulData({
+              ...contentfulData,
+              qty: response?.data?.qty,
+              id: response?.data?.id,
+            });
+          }
+        });
+    } else {
+      let singleItemFromLocalStorage = getSpecificItemFromCart(element);
+      if (singleItemFromLocalStorage) {
+        let cartItems = getCartItems();
+        let indexItem = -1;
+        cartItems.map((cartItem: any, index: number) => {
+          if (cartItem.name === singleItemFromLocalStorage.name) {
+            if (type === ADD_CART_TYPES.PLUS) {
+              cartItem.qty = cartItem.qty + 1;
+            } else if (type === ADD_CART_TYPES.MINUS) {
+              if (cartItem.qty === 1) {
+                indexItem = index;
+              } else {
+                cartItem.qty = cartItem.qty - 1;
+              }
             }
           }
+        });
+        if (indexItem !== -1) {
+          cartItems.splice(indexItem, 1);
+          delete element.qty;
+          setContentfulData({ ...element });
+        } else {
+          setContentfulData(getSpecificItemFromCart(element));
         }
-      });
-      if (indexItem !== -1) {
-        cartItems.splice(indexItem, 1);
-        delete element.qty;
-        setContentfulData({ ...element });
+        replaceCartItems(cartItems);
       } else {
-        setContentfulData(getSpecificItemFromCart(element));
+        element.qty = 1;
+        addToCart(element);
+        setContentfulData({ ...element });
       }
-      replaceCartItems(cartItems);
-    } else {
-      element.qty = 1;
-      addToCart(element);
-      setContentfulData({ ...element });
     }
   };
 

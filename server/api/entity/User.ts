@@ -1,22 +1,28 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
-export class Template {
+export class User {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
-  title!: string;
+  email!: string;
 
   @Column()
-  cost!: number;
+  email_verified!: boolean;
 
   @Column()
-  description!: string;
+  name!: string;
 
   @Column()
-  thumbnail!: string;
+  nickname!: string;
 
   @Column()
-  image!: string;
+  picture!: string;
+
+  @Column()
+  sub!: string;
+
+  @Column()
+  updated_at!: Date;
 }

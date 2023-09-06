@@ -7,6 +7,7 @@ export const SLUGS = {
 
 export const LOCAL_STORAGE = {
   CART_ITEMS: "cartItems",
+  USER: "user",
 };
 
 export const ADD_CART_TYPES = {

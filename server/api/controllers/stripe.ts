@@ -1,6 +1,6 @@
 import { stripeConfig } from "../configuration/stripeConfig";
 
-// Example: Create a payment intent
+//Create a payment intent
 export const createPaymentIntent = async (req: any, res: any, next: any) => {
   let { amount, currency } = req.body;
   amount = amount.concat("00");
