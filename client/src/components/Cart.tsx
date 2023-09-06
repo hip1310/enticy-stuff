@@ -15,7 +15,7 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
+  const loadData = () => {
     if (isLoggedIn()) {
       const userData = getUser();
       axiosAPI.get(`/cart/findAll?userId=${userData?.id}`).then((response) => {
@@ -27,6 +27,10 @@ const Cart = () => {
     }
 
     setIsLoading(false);
+  };
+
+  useEffect(() => {
+    loadData();
   }, []);
 
   const getTotal = () => {
@@ -37,31 +41,67 @@ const Cart = () => {
     return total?.toLocaleString();
   };
   const onClickAddToCart = (element: any, type: string) => {
-    let singleItemFromLocalStorage = getSpecificItemFromCart(element);
-    let localCartItems = [...cartItems];
-    if (singleItemFromLocalStorage) {
-      let indexItem = -1;
-      localCartItems.map((cartItem: any, index: number) => {
-        if (cartItem.name === singleItemFromLocalStorage.name) {
-          if (type === ADD_CART_TYPES.PLUS) {
-            cartItem.qty = cartItem.qty + 1;
-          } else if (type === ADD_CART_TYPES.MINUS) {
-            if (cartItem.qty === 1) {
-              indexItem = index;
-            } else {
-              cartItem.qty = cartItem.qty - 1;
+    if (isLoggedIn()) {
+      const { name, image, price, id } = element;
+      const userData = getUser();
+      let qty;
+      if (ADD_CART_TYPES.ADD === type) {
+        qty = 1;
+      } else if (ADD_CART_TYPES.MINUS === type) {
+        qty = element?.qty - 1;
+      } else if (ADD_CART_TYPES.PLUS === type) {
+        qty = element?.qty + 1;
+      }
+
+      const cartItem = {
+        name: name,
+        image: getImageUrl(image?.[0]),
+        qty: qty,
+        price: price,
+        userId: userData.id,
+        id: id,
+      };
+      axiosAPI
+        .post("/cart/add", cartItem, {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "http://127.0.0.1:3000",
+          },
+        })
+        .then((response) => {
+          if (Object.keys(response?.data)?.length > 0) {
+            setTimeout(() => {
+              loadData();
+            }, 500);
+          }
+        });
+    } else {
+      let singleItemFromLocalStorage = getSpecificItemFromCart(element);
+      let localCartItems = [...cartItems];
+      if (singleItemFromLocalStorage) {
+        let indexItem = -1;
+        localCartItems.map((cartItem: any, index: number) => {
+          if (cartItem.name === singleItemFromLocalStorage.name) {
+            if (type === ADD_CART_TYPES.PLUS) {
+              cartItem.qty = cartItem.qty + 1;
+            } else if (type === ADD_CART_TYPES.MINUS) {
+              if (cartItem.qty === 1) {
+                indexItem = index;
+              } else {
+                cartItem.qty = cartItem.qty - 1;
+              }
             }
           }
+        });
+        if (indexItem !== -1) {
+          localCartItems.splice(indexItem, 1);
+          delete element.qty;
+          setCartItems(localCartItems);
+        } else {
+          setCartItems(localCartItems);
         }
-      });
-      if (indexItem !== -1) {
-        localCartItems.splice(indexItem, 1);
-        delete element.qty;
-        setCartItems(localCartItems);
-      } else {
-        setCartItems(localCartItems);
+        replaceCartItems(localCartItems);
       }
-      replaceCartItems(localCartItems);
     }
   };
 

@@ -89,8 +89,8 @@ const ProductDetails = () => {
 
   const onClickAddToCart = (element: any, type: string) => {
     const { name, image, price, id } = element;
-    const userData = getUser();
     if (isLoggedIn()) {
+      const userData = getUser();
       let qty;
       if (ADD_CART_TYPES.ADD === type) {
         qty = 1;
