@@ -18,7 +18,7 @@ const ContentfulMainContainerComponent = (props: any) => {
       return noPageFound();
     } else {
       return (
-        <ProductContainer products={props.products} setSkip={props.setSkip} total={props.total} />
+        <ProductContainer products={props.products} setSkip={props.setSkip} total={props.total} onChangeFilter = {props.onChangeFilter} filter={props.filter} />
       );
     }
   } else if (isHeader) {

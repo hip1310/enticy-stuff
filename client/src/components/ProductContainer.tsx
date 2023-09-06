@@ -10,7 +10,8 @@ const ProductContainer = (props: any) => {
     <ContentfulMainComponent
       slug={SLUGS.PRODUCT}
       limit={PRODUCT_PAGE_LIMIT}
-      category={props.category}
+      filter={props.filter}
+      onChangeFilter = {props.onChangeFilter}
       fetchItems
     />
   );
