@@ -51,25 +51,37 @@ const ProductDetails = () => {
       : getSpecificItemFromCart(contentfulData);
     if (item?.qty) {
       return (
-        <div className="display-flex">
-          <button
-            className="productDetailsMinusPlusButton"
-            onClick={() => {
-              onClickAddToCart(contentfulData, ADD_CART_TYPES.MINUS);
-            }}
-          >
-            -
-          </button>
-          <p className="productDetailsQtyText">{item?.qty}</p>
-          <button
-            className="productDetailsMinusPlusButton"
-            onClick={() => {
-              onClickAddToCart(contentfulData, ADD_CART_TYPES.PLUS);
-            }}
-          >
-            +
-          </button>
-        </div>
+        <>
+          <div className="display-flex">
+            <button
+              className="productDetailsMinusPlusButton"
+              onClick={() => {
+                onClickAddToCart(contentfulData, ADD_CART_TYPES.MINUS);
+              }}
+            >
+              -
+            </button>
+            <p className="productDetailsQtyText">{item?.qty}</p>
+            <button
+              className="productDetailsMinusPlusButton"
+              onClick={() => {
+                onClickAddToCart(contentfulData, ADD_CART_TYPES.PLUS);
+              }}
+            >
+              +
+            </button>
+          </div>
+          <div>
+            <button
+              className="gotoCartButton margin-top-10-px"
+              onClick={() => {
+                window.location.href = "/cart";
+              }}
+            >
+              Go to Cart
+            </button>
+          </div>
+        </>
       );
     } else {
       return (
