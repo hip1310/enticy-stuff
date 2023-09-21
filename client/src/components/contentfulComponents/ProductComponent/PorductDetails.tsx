@@ -100,7 +100,7 @@ const ProductDetails = () => {
   };
 
   const onClickAddToCart = (element: any, type: string) => {
-    const { name, image, price, id } = element;
+    const { name, image, price, id, category } = element;
     if (isLoggedIn()) {
       const userData = getUser();
       let qty;
@@ -119,6 +119,7 @@ const ProductDetails = () => {
         price: price,
         userId: userData.id,
         id: id,
+        category: category,
       };
       axiosAPI
         .post("/cart/add", cartItem, {

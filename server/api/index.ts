@@ -2,6 +2,7 @@ import express from "express";
 import stripeRouter from "./routes/stripe";
 import userRouter from "./routes/user";
 import cartRouter from "./routes/cart";
+import orderRouter from "./routes/order";
 import pkg from "body-parser";
 import errorHandler from "./exception/ErrorHandler";
 import cors from "cors";
@@ -26,6 +27,7 @@ app.use((req: any, res: any, next: any) => {
 app.use("/api/stripe", stripeRouter);
 app.use("/api/user", userRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/order", orderRouter);
 app.use(errorHandler);
 
 app.listen(port, () => {

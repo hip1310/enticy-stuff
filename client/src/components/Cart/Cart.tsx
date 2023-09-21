@@ -5,11 +5,11 @@ import {
   getUser,
   isLoggedIn,
   replaceCartItems,
-} from "./util/commonFunctions";
+} from "../util/commonFunctions";
 import "./Cart.css";
-import { ADD_CART_TYPES } from "./util/constant";
+import { ADD_CART_TYPES } from "../util/constant";
 import { useEffect, useState } from "react";
-import { axiosAPI } from "../services/axiosAPI";
+import { axiosAPI } from "../../services/axiosAPI";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState<any>([]);
@@ -42,7 +42,7 @@ const Cart = () => {
   };
   const onClickAddToCart = (element: any, type: string) => {
     if (isLoggedIn()) {
-      const { name, image, price, id } = element;
+      const { name, image, price, id, category } = element;
       const userData = getUser();
       let qty;
       if (ADD_CART_TYPES.ADD === type) {
@@ -60,6 +60,7 @@ const Cart = () => {
         price: price,
         userId: userData.id,
         id: id,
+        category: category,
       };
       axiosAPI
         .post("/cart/add", cartItem, {

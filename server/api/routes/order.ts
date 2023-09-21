@@ -1,10 +1,13 @@
-import { addOrUpdate, moveCartItem, findAll, findOneByUserIdAndName } from "../controllers/cart";
+import {
+  changeOrderStatus,
+  findAll,
+  findOneByUserIdAndName,
+} from "../controllers/order";
 import { Router } from "express";
 const router = Router();
 
-router.post("/add", [addOrUpdate]);
 router.get("/findAll", [findAll]);
 router.get("/findOneByUserIdAndName", [findOneByUserIdAndName]);
-router.patch("/moveCartItem", [moveCartItem]);
+router.post("/changeOrderStatus", [changeOrderStatus]);
 
 export default router;

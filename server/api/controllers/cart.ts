@@ -1,10 +1,11 @@
 import { Cart } from "../entity/Cart";
 import connectionPool from "../data-source";
+import { moveAllItemToOrder } from "../controllers/order";
 
 //Add To Cart
 export const addOrUpdate = async (req: any, res: any, next: any) => {
   try {
-    const { id, name, image, qty, price, userId } = req.body;
+    const { id, name, image, qty, price, userId, category } = req.body;
     const cartRepository = connectionPool.getRepository(Cart);
     cartRepository
       .find({
@@ -18,6 +19,7 @@ export const addOrUpdate = async (req: any, res: any, next: any) => {
             image: image,
             qty: qty,
             price: price,
+            category: category,
             user_id: userId,
           };
           cartRepository.update({ id: existingCartItem.id }, updateCartItem);
@@ -28,6 +30,7 @@ export const addOrUpdate = async (req: any, res: any, next: any) => {
             image: image,
             qty: qty,
             price: price,
+            category: category,
             user_id: userId,
           });
           const savedData = await cartRepository.save(cartItem);
@@ -77,10 +80,14 @@ export const moveCartItem = async (req: any, res: any, next: any) => {
   try {
     const { userId } = req.query;
     const cartRepository = connectionPool.getRepository(Cart);
+    const cartItems: any = await cartRepository.find({
+      where: { user_id: userId },
+    });
+    const orderItems = await moveAllItemToOrder(cartItems);
     cartRepository.delete({ user_id: userId });
-    res.status(200).send("Success!");
+    res.status(200).send(orderItems);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error clearCartItem cart data" });
+    res.status(500).json({ message: "Error moveCartItem cart data" });
   }
 };

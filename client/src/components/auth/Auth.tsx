@@ -29,7 +29,23 @@ const Auth = () => {
   return (
     <>
       {!isLoading && (
-        <>{isAuthenticated ? <LogoutButton /> : <LoginButton />}</>
+        <>
+          {isAuthenticated ? (
+            <>
+              <div className="profile">
+                <img
+                  src={user?.picture}
+                  style={{ width: "35px", borderRadius: "25px" }}
+                />
+                <div className="profile-items">
+                  <a href={`/orders`}>Orders</a>
+                </div>
+              </div>
+            </>
+          ) : (
+            <LoginButton />
+          )}
+        </>
       )}
     </>
   );

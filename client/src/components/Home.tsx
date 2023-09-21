@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
 const ProductContainer = React.lazy(() => import("./ProductContainer"));
 
 const Home = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const [filterObject, setFilterObject] = useState<any>({});
 
   const onChangeFilter = (key: string, value: any) => {

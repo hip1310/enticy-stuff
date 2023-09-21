@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
-export class Cart {
+export class Order {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -19,6 +19,9 @@ export class Cart {
 
   @Column()
   category!: string;
+
+  @Column()
+  status!: string;
 
   @Column()
   user_id!: number;
