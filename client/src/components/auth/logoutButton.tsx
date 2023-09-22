@@ -6,8 +6,8 @@ const LogoutButton = () => {
   const { logout } = useAuth0();
 
   return (
-    <p
-      className="logoutButton"
+    <a
+      href="javascript:void(0)"
       onClick={() => {
         logout({
           logoutParams: {
@@ -18,7 +18,7 @@ const LogoutButton = () => {
       }}
     >
       Log Out
-    </p>
+    </a>
   );
 };
 

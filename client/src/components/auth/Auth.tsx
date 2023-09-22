@@ -39,6 +39,7 @@ const Auth = () => {
                 />
                 <div className="profile-items">
                   <a href={`/orders`}>Orders</a>
+                  <LogoutButton />
                 </div>
               </div>
             </>
