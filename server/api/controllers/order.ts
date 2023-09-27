@@ -2,6 +2,7 @@ import { Order } from "../entity/Order";
 import connectionPool from "../data-source";
 import { publishSNS } from "../util/publishAwsSns";
 import { WarehouseCategoryMapping } from "../entity/WarehouseCategoryMapping";
+import { Warehouse } from "../entity/Warehouse";
 
 const changeStatusArnTopic = "arn:aws:sns:us-east-1:690192834616:order_updates";
 //moveAllItemToOrder To Order
@@ -29,13 +30,13 @@ export const add = async (data: any) => {
   });
   const savedData = await repository.save(item);
 
-  const warehouseCategoryMappingRepository = connectionPool.getRepository(WarehouseCategoryMapping);
-  const warehouseCategoryMappingData: any = await  warehouseCategoryMappingRepository.find({
-    where:{category:category}
-  })
-  
-  console.log("warehouseCategoryMappingData",warehouseCategoryMappingData[0])
-  console.log("warehouseCategoryMappingData.warehouse.code",warehouseCategoryMappingData[0].warehouse.code)
+  const warehouseCategoryMappingRepository = connectionPool.getRepository(
+    WarehouseCategoryMapping
+  );
+  const warehouseCategoryMappingData: any =
+    await warehouseCategoryMappingRepository.find({
+      where: { category: category },
+    });
 
   publishSNS({
     topic: changeStatusArnTopic,
@@ -43,7 +44,7 @@ export const add = async (data: any) => {
       userId: user_id,
       name: name,
       status: "Pending Delivery",
-      wareHouseCode:warehouseCategoryMappingData[0].warehouse.code,
+      warehouseCode: warehouseCategoryMappingData[0].warehouse.code,
     }),
   });
   return savedData;
@@ -86,14 +87,23 @@ export const findOneByUserIdAndName = async (req: any, res: any, next: any) => {
 
 export const changeOrderStatus = async (req: any, res: any, next: any) => {
   try {
-    const { userId, name, status } = req.body;
+    const { userId, name, status, warehouseCode } = req.body;
     const repository = connectionPool.getRepository(Order);
     const items: any = await repository.find({
       where: { user_id: userId, name: name },
     });
     if (items?.length > 0) {
       const item = items?.[0];
-      repository.update({ id: item.id }, { status: status });
+      const warehouseRepository = connectionPool.getRepository(Warehouse);
+      const warehouseItems: any = await warehouseRepository.find({
+        where: { code: warehouseCode },
+      });
+      const warehouseItem = warehouseItems;
+
+      repository.update(
+        { id: item.id },
+        { status: status, warehouse_id: warehouseItem.id }
+      );
       res.status(200).send({ ...item, status: status });
     }
   } catch (error) {

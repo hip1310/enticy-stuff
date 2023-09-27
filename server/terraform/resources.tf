@@ -21,9 +21,10 @@ resource "aws_sns_topic_subscription" "order_updates_sqs_target_naranpura_wareho
     endpoint  = "${aws_sqs_queue.order_updates_queue_naranpura_warehouse.arn}"
     filter_policy = <<FILTER_POLICY
 {
-  "wareHouseCode":["naranpura_warehouse"]
+  "warehouseCode":["naranpura_warehouse"]
 }
 FILTER_POLICY
+filter_policy_scope = "MessageBody"
 }
 resource "aws_sqs_queue_policy" "order_updates_queue_policy_naranpura_warehouse" {
     queue_url = "${aws_sqs_queue.order_updates_queue_naranpura_warehouse.id}"
@@ -71,9 +72,10 @@ resource "aws_sns_topic_subscription" "order_updates_sqs_target_bopal_warehouse"
     endpoint  = "${aws_sqs_queue.order_updates_queue_bopal_warehouse.arn}"
     filter_policy = <<FILTER_POLICY
 {
-  "wareHouseCode":["bopal_warehouse"]
+  "warehouseCode":["bopal_warehouse"]
 }
 FILTER_POLICY
+filter_policy_scope = "MessageBody"
 }
 resource "aws_sqs_queue_policy" "order_updates_queue_policy_bopal_warehouse" {
     queue_url = "${aws_sqs_queue.order_updates_queue_bopal_warehouse.id}"

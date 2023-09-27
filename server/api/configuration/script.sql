@@ -25,23 +25,6 @@ CREATE TABLE public."cart" (
 	PRIMARY KEY(id),
 	CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES public."user"(id)
 );
-
-CREATE TABLE public."order" (
-	id int NOT NULL GENERATED ALWAYS AS IDENTITY,
-	name varchar NOT NULL,
-	image varchar NOT NULL,
-	qty int NOT NULL,
-	price varchar NOT NULL,
-	category varchar NOT NULL,
-	status varchar,
-	user_id int,
-	warehouse_id int,
-	updated_at timestamp default current_timestamp,
-	PRIMARY KEY(id),
-	CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES public."user"(id),
-	CONSTRAINT fk_warehouse FOREIGN KEY(warehouse_id) REFERENCES public."warehouse"(id)
-);
-
 CREATE TABLE public."warehouse" (
 	id int NOT NULL GENERATED ALWAYS AS IDENTITY,
 	name varchar NOT NULL,
@@ -76,3 +59,19 @@ INSERT INTO public."warehouse-category-mapping" (category,warehouse_id,updated_a
 	('Natural Fiber Hampers',1,'2023-09-20 09:17:27.19872'),
 	('Amazing Laptop Bag',1,'2023-09-20 09:17:49.092932'),
 	('Corporate Swag',2,'2023-09-20 09:17:49.102984');
+
+CREATE TABLE public."order" (
+	id int NOT NULL GENERATED ALWAYS AS IDENTITY,
+	name varchar NOT NULL,
+	image varchar NOT NULL,
+	qty int NOT NULL,
+	price varchar NOT NULL,
+	category varchar NOT NULL,
+	status varchar,
+	user_id int,
+	warehouse_id int,
+	updated_at timestamp default current_timestamp,
+	PRIMARY KEY(id),
+	CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES public."user"(id),
+	CONSTRAINT fk_warehouse FOREIGN KEY(warehouse_id) REFERENCES public."warehouse"(id)
+);
