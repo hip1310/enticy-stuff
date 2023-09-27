@@ -1,6 +1,7 @@
 import { Order } from "../entity/Order";
 import connectionPool from "../data-source";
 import { publishSNS } from "../util/publishAwsSns";
+import { WarehouseCategoryMapping } from "../entity/WarehouseCategoryMapping";
 
 const changeStatusArnTopic = "arn:aws:sns:us-east-1:690192834616:order_updates";
 //moveAllItemToOrder To Order
@@ -27,12 +28,22 @@ export const add = async (data: any) => {
     user_id: user_id,
   });
   const savedData = await repository.save(item);
+
+  const warehouseCategoryMappingRepository = connectionPool.getRepository(WarehouseCategoryMapping);
+  const warehouseCategoryMappingData: any = await  warehouseCategoryMappingRepository.find({
+    where:{category:category}
+  })
+  
+  console.log("warehouseCategoryMappingData",warehouseCategoryMappingData[0])
+  console.log("warehouseCategoryMappingData.warehouse.code",warehouseCategoryMappingData[0].warehouse.code)
+
   publishSNS({
     topic: changeStatusArnTopic,
     message: JSON.stringify({
       userId: user_id,
       name: name,
       status: "Pending Delivery",
+      wareHouseCode:warehouseCategoryMappingData[0].warehouse.code,
     }),
   });
   return savedData;

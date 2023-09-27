@@ -27,5 +27,8 @@ export class Order {
   user_id!: number;
 
   @Column()
+  warehouse_id!: number;
+
+  @Column()
   updated_at!: Date;
 }
