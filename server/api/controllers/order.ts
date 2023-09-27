@@ -98,7 +98,7 @@ export const changeOrderStatus = async (req: any, res: any, next: any) => {
       const warehouseItems: any = await warehouseRepository.find({
         where: { code: warehouseCode },
       });
-      const warehouseItem = warehouseItems;
+      const warehouseItem = warehouseItems[0];
 
       repository.update(
         { id: item.id },
