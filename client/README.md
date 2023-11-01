@@ -1,46 +1,51 @@
-# Getting Started with Create React App
+# Client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The Client module is a web project that encompasses all the components required to manage the web view of the Enticy Stuff application.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+To set up the client module, follow these steps:
 
-### `npm start`
+1. Install the necessary dependencies by running one of the following commands:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    ```bash
+    npm install
+    # or
+    npm install --force
+    ```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+2. Copy the environment file and enter your sensitive data:
 
-### `npm test`
+    ```bash
+    cp .env.example .env
+    ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Running the Client Application
 
-### `npm run build`
+To launch the client application, execute the following command:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This command will start the development server and make the web view accessible.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Running Tests
 
-### `npm run eject`
+Use the following command to run the test suite for the client:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+npm run test
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Running tests is crucial for ensuring the reliability and correctness of your web application.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Building for Production
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+To prepare your application for production deployment, use the following script:
 
-## Learn More
+```bash
+npm run build
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+This script creates a production-ready build in the `build` folder, optimizing the application for the best performance. It includes minification of files, and filenames in the production build will also include unique hashes, improving cache management and security. Once this script has completed successfully, your application is ready for deployment in a production environment.

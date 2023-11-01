@@ -2,32 +2,32 @@ resource "aws_sns_topic" "order_updates" {
   name = "order_updates"
 }
 
-# naranpura warehouse sqs queue start
-resource "aws_sqs_queue" "order_updates_queue_naranpura_warehouse" {
-    name = "order-updates-queue-naranpura-warehouse"
-    redrive_policy  = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.order_updates_dl_queue_naranpura_warehouse.arn}\",\"maxReceiveCount\":5}"
+# alaska warehouse sqs queue start
+resource "aws_sqs_queue" "order_updates_queue_alaska_warehouse" {
+    name = "order-updates-queue-alaska-warehouse"
+    redrive_policy  = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.order_updates_dl_queue_alaska_warehouse.arn}\",\"maxReceiveCount\":5}"
     visibility_timeout_seconds = 300
 
     tags = {
         Environment = "dev"
     }
 }
-resource "aws_sqs_queue" "order_updates_dl_queue_naranpura_warehouse" {
-    name = "order-updates-dl-queue-naranpura-warehouse"
+resource "aws_sqs_queue" "order_updates_dl_queue_alaska_warehouse" {
+    name = "order-updates-dl-queue-alaska-warehouse"
 }
-resource "aws_sns_topic_subscription" "order_updates_sqs_target_naranpura_warehouse" {
+resource "aws_sns_topic_subscription" "order_updates_sqs_target_alaska_warehouse" {
     topic_arn = "${aws_sns_topic.order_updates.arn}"
     protocol  = "sqs"
-    endpoint  = "${aws_sqs_queue.order_updates_queue_naranpura_warehouse.arn}"
+    endpoint  = "${aws_sqs_queue.order_updates_queue_alaska_warehouse.arn}"
     filter_policy = <<FILTER_POLICY
 {
-  "warehouseCode":["naranpura_warehouse"]
+  "warehouseCode":["alaska_warehouse"]
 }
 FILTER_POLICY
 filter_policy_scope = "MessageBody"
 }
-resource "aws_sqs_queue_policy" "order_updates_queue_policy_naranpura_warehouse" {
-    queue_url = "${aws_sqs_queue.order_updates_queue_naranpura_warehouse.id}"
+resource "aws_sqs_queue_policy" "order_updates_queue_policy_alaska_warehouse" {
+    queue_url = "${aws_sqs_queue.order_updates_queue_alaska_warehouse.id}"
 
     policy = <<POLICY
 {
@@ -39,7 +39,7 @@ resource "aws_sqs_queue_policy" "order_updates_queue_policy_naranpura_warehouse"
       "Effect": "Allow",
       "Principal": "*",
       "Action": "sqs:SendMessage",
-      "Resource": "${aws_sqs_queue.order_updates_queue_naranpura_warehouse.arn}",
+      "Resource": "${aws_sqs_queue.order_updates_queue_alaska_warehouse.arn}",
       "Condition": {
         "ArnEquals": {
           "aws:SourceArn": "${aws_sns_topic.order_updates.arn}"
@@ -50,35 +50,35 @@ resource "aws_sqs_queue_policy" "order_updates_queue_policy_naranpura_warehouse"
 }
 POLICY
 }
-# naranpura warehouse sqs queue end
+# alaska warehouse sqs queue end
 
-# bopal warehouse sqs queue start
-resource "aws_sqs_queue" "order_updates_queue_bopal_warehouse" {
-    name = "order-updates-queue-bopal-warehouse"
-    redrive_policy  = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.order_updates_dl_queue_bopal_warehouse.arn}\",\"maxReceiveCount\":5}"
+# california warehouse sqs queue start
+resource "aws_sqs_queue" "order_updates_queue_california_warehouse" {
+    name = "order-updates-queue-california-warehouse"
+    redrive_policy  = "{\"deadLetterTargetArn\":\"${aws_sqs_queue.order_updates_dl_queue_california_warehouse.arn}\",\"maxReceiveCount\":5}"
     visibility_timeout_seconds = 300
 
     tags = {
         Environment = "dev"
     }
 }
-resource "aws_sqs_queue" "order_updates_dl_queue_bopal_warehouse" {
-    name = "order-updates-dl-queue-bopal-warehouse"
+resource "aws_sqs_queue" "order_updates_dl_queue_california_warehouse" {
+    name = "order-updates-dl-queue-california-warehouse"
 }
 
-resource "aws_sns_topic_subscription" "order_updates_sqs_target_bopal_warehouse" {
+resource "aws_sns_topic_subscription" "order_updates_sqs_target_california_warehouse" {
     topic_arn = "${aws_sns_topic.order_updates.arn}"
     protocol  = "sqs"
-    endpoint  = "${aws_sqs_queue.order_updates_queue_bopal_warehouse.arn}"
+    endpoint  = "${aws_sqs_queue.order_updates_queue_california_warehouse.arn}"
     filter_policy = <<FILTER_POLICY
 {
-  "warehouseCode":["bopal_warehouse"]
+  "warehouseCode":["california_warehouse"]
 }
 FILTER_POLICY
 filter_policy_scope = "MessageBody"
 }
-resource "aws_sqs_queue_policy" "order_updates_queue_policy_bopal_warehouse" {
-    queue_url = "${aws_sqs_queue.order_updates_queue_bopal_warehouse.id}"
+resource "aws_sqs_queue_policy" "order_updates_queue_policy_california_warehouse" {
+    queue_url = "${aws_sqs_queue.order_updates_queue_california_warehouse.id}"
 
     policy = <<POLICY
 {
@@ -90,7 +90,7 @@ resource "aws_sqs_queue_policy" "order_updates_queue_policy_bopal_warehouse" {
       "Effect": "Allow",
       "Principal": "*",
       "Action": "sqs:SendMessage",
-      "Resource": "${aws_sqs_queue.order_updates_queue_bopal_warehouse.arn}",
+      "Resource": "${aws_sqs_queue.order_updates_queue_california_warehouse.arn}",
       "Condition": {
         "ArnEquals": {
           "aws:SourceArn": "${aws_sns_topic.order_updates.arn}"
@@ -101,15 +101,15 @@ resource "aws_sqs_queue_policy" "order_updates_queue_policy_bopal_warehouse" {
 }
 POLICY
 }
-# naranpura warehouse sqs queue end
+# alaska warehouse sqs queue end
 
 # lambda function call
 resource "aws_lambda_function" "results_updates_lambda" {
-    filename         = "${path.module}/lambda/changeStatus.zip"
+    filename         = "${path.module}/changeStatus.zip"
     function_name    = "changeStatus"
     role             = "${aws_iam_role.lambda_role.arn}"
-    handler          = "changeStatus.handler"
-    source_code_hash = "${data.archive_file.lambda_zip.output_base64sha256}"
+    handler          = "out/lambda/index.handler"
+    source_code_hash = "filebase64sha256(${path.module}/changeStatus.zip)"
     runtime          = "nodejs18.x"
 }
 
@@ -179,31 +179,59 @@ EOF
 
 
 
-# naranpura warehouse mapping with lamda start
-resource "aws_lambda_event_source_mapping" "event_source_mapping_naranpura_warehouse" {
-  event_source_arn = "${aws_sqs_queue.order_updates_queue_naranpura_warehouse.arn}"
+# alaska warehouse mapping with lamda start
+resource "aws_lambda_event_source_mapping" "event_source_mapping_alaska_warehouse" {
+  event_source_arn = "${aws_sqs_queue.order_updates_queue_alaska_warehouse.arn}"
   enabled          = true
   function_name    = "${aws_lambda_function.results_updates_lambda.arn}"
   batch_size       = 1
 }
-# naranpura warehouse mapping with lamda end
+# alaska warehouse mapping with lamda end
 
-# bopal warehouse mapping with lamda start
-resource "aws_lambda_event_source_mapping" "event_source_mapping_bopal_warehouse" {
-  event_source_arn = "${aws_sqs_queue.order_updates_queue_bopal_warehouse.arn}"
+# california warehouse mapping with lamda start
+resource "aws_lambda_event_source_mapping" "event_source_mapping_california_warehouse" {
+  event_source_arn = "${aws_sqs_queue.order_updates_queue_california_warehouse.arn}"
   enabled          = true
   function_name    = "${aws_lambda_function.results_updates_lambda.arn}"
   batch_size       = 1
 }
-# bopal warehouse mapping with lamda end
+# california warehouse mapping with lamda end
 
 
-# resource "aws_lambda_function_event_invoke_config" "changeStatus" {
-#   function_name          = aws_lambda_function.results_updates_lambda.function_name
-#   destination_config {
+resource "aws_ses_email_identity" "ses_email" {
+  email = "enticy-stuff@yopmail.com"  # Replace with your email address
+}
 
-#     on_success {
-#       destination = "${aws_sqs_queue.order_updates_queue_naranpura_warehouse.arn}"
-#     }
-#   }
-# }
+resource "aws_ses_configuration_set" "example_configuration_set" {
+  name = "ses-configuration-set"
+}
+
+
+# lambda function call promote Orders
+data "archive_file" "promote_order" {
+  type        = "zip"
+  source_file = "${path.module}/src/lambda/promoteOrder.ts"
+  output_path = "${path.module}/src/lambda/promoteOrder.zip"
+}
+
+resource "aws_lambda_function" "promote_orders" {
+    filename         = "${path.module}/promoteOrder.zip"
+    function_name    = "promoteOrder"
+    role             = "${aws_iam_role.lambda_role.arn}"
+    handler          = "out/lambda/promoteOrder.handler"
+    runtime          = "nodejs18.x"
+}
+
+# CloudWatch Events rule to trigger the promoteOrder Lambda function on a schedule
+resource "aws_cloudwatch_event_rule" "promote_orders" {
+  name        = "CloudWatchRuleToPromoteOrder"
+  description = "CloudWatch Events Rule to promote order every day"
+  schedule_expression = "cron(0 12 * * ? *)"  # Run every day at 12:00 PM UTC
+}
+
+# CloudWatch Events rule target (Lambda function)
+resource "aws_cloudwatch_event_target" "promote_orders" {
+  rule      = aws_cloudwatch_event_rule.promote_orders.name
+  target_id = "promoteOrder"
+  arn       = aws_lambda_function.promote_orders.arn
+}

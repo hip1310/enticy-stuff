@@ -8,7 +8,6 @@
 6. Now create access key with usecase(Local code)
 7. Now you can see access_key and secret_key.
 
-
 ## Steps to run project
 ### `terraform init`
 To init terraform project
@@ -16,5 +15,11 @@ To init terraform project
 ### `terraform plan -var-file="vars.tfvars"`
 To see what will be create or update.
 
-### `terraform apply -var-file="vars.tfvars"`
-To run code in aws
+### `npm run deploy`
+To Deploy current changes to the server
+
+
+## Required Softwares
+1. Node
+2. 7-zip
+3. Terraform
