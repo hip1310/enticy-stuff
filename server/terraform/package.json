@@ -1,0 +1,18 @@
+{
+  "name": "terraform",
+  "version": "1.0.0",
+  "description": "1. Open IAM Identity Center Dashboard(https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/home) in aws console\r 2. Create user from left side under access management->users click create user\r 3. Provide name for user(terraform_user)\r 4. set permissions(AdministratorAccess) then create.\r 5. Click on newly created user navigate to security credentials.\r 6. Now create access key with usecase(Local code)\r 7. Now you can see access_key and secret_key.",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "tsc && 7z a -tzip changeStatus.zip out node_modules && terraform apply -var-file=\"vars.tfvars\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.124",
+    "aws-lambda": "^1.0.7",
+    "typescript": "^5.2.2"
+  }
+}
