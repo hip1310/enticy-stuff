@@ -14,6 +14,7 @@ export interface OrderInterface {
   warehouseId?: number;   // Optional warehouse ID associated with the order
   addressId?: number;   // Optional Address ID associated with the order
   address?: string;   // Optional Address associated with the order
+  created_at?: Date;    // Optional timestamp indicating when the item was created
   updated_at?: Date;      // Optional updated_at with order
 }
 

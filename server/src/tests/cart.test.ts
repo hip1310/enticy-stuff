@@ -23,6 +23,7 @@ describe("CartService", () => {
           user: new User(1),
           category: "123",
           updated_at: new Date(),
+          created_at: new Date(),
         }
       ;
   
@@ -35,6 +36,7 @@ describe("CartService", () => {
         user: new User(1),
         category: "123",
         updated_at: new Date(),
+        created_at: new Date()
       };
   
   

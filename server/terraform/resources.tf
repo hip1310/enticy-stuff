@@ -215,7 +215,7 @@ data "archive_file" "promote_order" {
 }
 
 resource "aws_lambda_function" "promote_orders" {
-    filename         = "${path.module}/promoteOrder.zip"
+    filename         = "${path.module}/src/lambda/promoteOrder.zip"
     function_name    = "promoteOrder"
     role             = "${aws_iam_role.lambda_role.arn}"
     handler          = "out/lambda/promoteOrder.handler"
@@ -225,8 +225,8 @@ resource "aws_lambda_function" "promote_orders" {
 # CloudWatch Events rule to trigger the promoteOrder Lambda function on a schedule
 resource "aws_cloudwatch_event_rule" "promote_orders" {
   name        = "CloudWatchRuleToPromoteOrder"
-  description = "CloudWatch Events Rule to promote order every day"
-  schedule_expression = "cron(0 12 * * ? *)"  # Run every day at 12:00 PM UTC
+  description = "CloudWatch Events Rule to promote order every 15 days"
+  schedule_expression = "cron(0 0 */15 * ? *)"  # Run every day every 15 days
 }
 
 # CloudWatch Events rule target (Lambda function)

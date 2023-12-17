@@ -10,6 +10,7 @@ export interface CartInterface {
   userId?: number; // Optional user ID if the cart item is associated with a user
   user?: UserInterface; // Optional user ID if the cart item is associated with a user
   category: string;     // Category of the item
+  created_at?: Date;    // Optional timestamp indicating when the item was created
   updated_at?: Date;    // Optional timestamp indicating when the item was last updated
 }
 

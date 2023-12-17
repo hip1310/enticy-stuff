@@ -1,11 +1,14 @@
 import * as orderService from "../api/order/order.service";
+import * as addressService from "../api/address/address.service";
 import { OrderInterface } from "../api/order/order.interface";
 import { Order } from "../api/order/order.entity";
+jest.useFakeTimers()
 
 // Mock the database connection and other dependencies
 jest.mock("../config/database");
 jest.mock("../util/publishAwsSns");
 jest.mock("../api/warehouse/warehouse.service");
+jest.mock("../api/address/address.service");
 
 describe("orderService", () => {
   describe("moveAllItemToOrder", () => {
@@ -22,6 +25,7 @@ describe("orderService", () => {
           updated_at: new Date(),
           warehouseId: 1,
           status: "Pending",
+          created_at: new Date(),
         },
       ];
 
@@ -37,6 +41,8 @@ describe("orderService", () => {
           updated_at: new Date(),
           warehouseId: 1,
           status: "Created",
+          address:"1",
+          created_at: new Date(),
         },
       ];
 
@@ -45,7 +51,12 @@ describe("orderService", () => {
         return Promise.resolve(data as Order);
       });
 
-      const result = await orderService.moveAllItemToOrder(allData);
+      const addMockForAddressService = jest.spyOn(addressService, "findAddressById");
+      addMockForAddressService.mockImplementation((data) => {
+        return Promise.resolve(data as unknown as string);
+      });
+
+      const result = await orderService.moveAllItemToOrder(allData, 1);
 
       expect(addMock).toHaveBeenCalledTimes(allData.length);
       expect(result).toEqual(expectedResponse);
